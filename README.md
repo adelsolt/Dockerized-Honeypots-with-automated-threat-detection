@@ -26,17 +26,3 @@ I have created a dedicated bridged network for the docker conatiners in order to
 ```
 docker network create logging-network
 ```
-
-
-Check container logs for issues:
-
-    docker logs suricata
-    docker logs cowrie
-    docker logs elk
-
-8. Test and Optimize
-
-    Confirm that logs from Suricata and Cowrie are visible in Kibana.
-    Fine-tune configurations for performance and alerting.
-
-Let me know if you need clarification on any step!
