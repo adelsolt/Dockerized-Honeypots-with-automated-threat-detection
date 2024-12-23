@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  cowrie:
+    image: cowrie/cowrie
+    ports:
+      - "2222:2222"  # SSH honeypot
+      - "2223:2223"  # Telnet honeypot
+    volumes:
+      - ./cowrie/logs:/cowrie/var/log/cowrie
+    environment:
+      - COWRIE_USER=user
+      - COWRIE_PASSWORD=password
+
+  dionaea:
+    image: dtagdevsec/dionaea
+    ports:
+      - "21:21"     # FTP
+      - "80:80"     # HTTP
+      - "443:443"   # HTTPS
+    volumes:
+      - ./dionaea/logs:/opt/dionaea/var/log/dionaea
+
+  suricata:
+    image: jasonish/suricata
+    command: ["suricata", "-i", "eth0"]
+    volumes:
+      - ./suricata/logs:/var/log/suricata
+
+  elk:
+    image: sebp/elk
+    environment:
+      - ES_JAVA_OPTS="-Xms512m -Xmx512m"
+    ports:
+      - "5601:5601"  # Kibana
+      - "9200:9200"  # Elasticsearch
+      - "5044:5044"  # Logstash
